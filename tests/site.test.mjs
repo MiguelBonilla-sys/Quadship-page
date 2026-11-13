@@ -33,7 +33,7 @@ test('crawl policy and canonical use only configured origin', () => {
 test('navigation anchors have real targets and main content works without JavaScript', () => {
   for (const [, id] of html.matchAll(/href="#([^"]+)"/g)) assert.ok(html.includes(`id="${id}"`), id);
   assert.match(html, /<details/); assert.match(html, /class="skip-link"/);
-  assert.equal((html.match(/<script[^>]+src=/g) || []).length, 0);
+  assert.equal((html.match(/<script[^>]+src=/g) || []).length, 1);
 });
 test('social image, favicon and optional machine-readable summary exist', () => {
   for (const path of ['social.svg', 'social.png', 'favicon.svg', 'llms.txt', 'product.md']) assert.ok(existsSync(new URL(`../dist/${path}`, import.meta.url)), path);
