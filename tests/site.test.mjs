@@ -1,10 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
+import { resolveBuildSite } from '../src/lib/site.mjs';
 const html = readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8');
 const robots = readFileSync(new URL('../dist/robots.txt', import.meta.url), 'utf8');
 const sitemap = readFileSync(new URL('../dist/sitemap.xml', import.meta.url), 'utf8');
-const site = process.env.SITE_URL;
+const site = resolveBuildSite(process.env);
 test('primary Spanish content, one h1 and responsive viewport are rendered statically', () => {
   assert.match(html, /<html[^>]+lang="es"/); assert.equal((html.match(/<h1\b/g) || []).length, 1);
   assert.match(html, /name="viewport"/); assert.match(html, /Tu aplicación, en línea/); assert.match(html, /El control, en tus manos/);
@@ -21,13 +22,18 @@ test('JSON-LD agrees with visible product and author', () => {
   assert.equal(graph.find(x => x['@type'] === 'SoftwareApplication').name, 'QuadShip');
   assert.equal(graph.find(x => x['@type'] === 'Person').name, 'Miguel Ángel Bonilla Torres');
 });
-test('crawl policy and canonical use only configured origin', () => {
+test('crawl policy and canonical match the build mode and validated origin', () => {
   if (site) {
     assert.match(html, /content="index, follow/); assert.ok(html.includes(`rel="canonical" href="${new URL(site).origin}/"`));
     assert.ok(sitemap.includes(`${new URL(site).origin}/`)); assert.match(robots, /Allow: \//);
+    assert.ok(robots.includes(`Sitemap: ${new URL('sitemap.xml', site).href}`));
+    assert.ok(html.includes(`property="og:url" content="${site}"`));
+    assert.ok(html.includes(`property="og:image" content="${new URL('social.png', site).href}"`));
+    assert.ok(html.includes(`name="twitter:image" content="${new URL('social.png', site).href}"`));
   } else {
     assert.match(html, /content="noindex, nofollow"/); assert.doesNotMatch(html, /rel="canonical"/);
     assert.match(robots, /Disallow: \//); assert.doesNotMatch(sitemap, /<loc>/);
+    assert.doesNotMatch(html, /property="og:(?:url|image)"|name="twitter:image"/);
   }
 });
 test('navigation anchors have real targets and main content works without JavaScript', () => {

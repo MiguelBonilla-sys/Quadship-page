@@ -9,3 +9,14 @@ export function resolveSite(value) {
     throw new Error('SITE_URL must be a real public HTTPS origin without credentials, path, query or fragment.');
   }
 }
+
+/** Production has a known origin; previews must opt out explicitly or via Vercel. */
+export function resolveBuildSite(env = {}) {
+  // Validate even preview overrides so invalid configuration never passes silently.
+  const origin = resolveSite(env.SITE_URL ?? 'https://quadship.app');
+  if (env.SITE_PREVIEW !== undefined && !['0', '1'].includes(env.SITE_PREVIEW)) {
+    throw new Error('SITE_PREVIEW must be 1, 0 or unset.');
+  }
+  const hostedPreview = Boolean(env.VERCEL_ENV && env.VERCEL_ENV !== 'production');
+  return env.SITE_PREVIEW === '1' || hostedPreview ? undefined : origin;
+}

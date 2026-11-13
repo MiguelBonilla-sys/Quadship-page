@@ -2,16 +2,34 @@
 
 QuadShip ships semantic, static HTML with equivalent primary content on mobile and desktop. It uses conventional SEO foundations for both search and AI discovery. No ranking, indexing or AI-citation outcome is guaranteed.
 
-## Before publication
+## Production indexing and protected previews
 
-Set `SITE_URL` to the final public HTTPS origin when building. Without it, the preview deliberately emits `noindex, nofollow`, blocks crawlers and omits canonical/OG URL fields; its sitemap has no entries. Do not submit that preview to search engines. Build-time environment configuration does not publish anything.
+The public origin is now verified as `https://quadship.app/`. A default production build uses that origin when `SITE_URL` is absent. This fixes the observed live build's `noindex, nofollow` metadata and `Disallow: /` robots policy caused by missing `SITE_URL`; the root cause was build configuration, not a lack of keyword markup.
 
 ```sh
-SITE_URL=https://your-owned-domain.tld npm run build
-SITE_URL=https://your-owned-domain.tld npm test
+npm run build
+npm test
 ```
 
-The origin above is an example to replace, not a claimed QuadShip domain. The validator rejects malformed URLs, credentials, paths, queries, fragments, HTTP and common local/placeholder origins. Hosting access controls, HTTP headers and production reachability must still be verified at launch.
+Production HTML, robots, sitemap and social metadata share the same validated origin. An explicit `SITE_URL` still overrides it and rejects malformed URLs, credentials, paths, queries, fragments, HTTP and common local/placeholder origins. Invalid origins fail even in preview mode, rather than silently accepting broken configuration.
+
+Use a non-indexable build for previews:
+
+```sh
+SITE_PREVIEW=1 npm run build
+SITE_PREVIEW=1 npm test
+```
+
+| Input | Crawl behavior |
+| --- | --- |
+| `SITE_URL` absent, no preview marker | Indexable production at `https://quadship.app/`. |
+| Valid `SITE_URL`, no preview marker | Indexable production at that validated origin. |
+| `SITE_PREVIEW=1` | Noindex, robots blocked, canonical/social origin fields omitted, empty sitemap. |
+| Supplied `VERCEL_ENV` other than `production` | Protected preview, including `preview` and `development`; `SITE_PREVIEW=0` cannot bypass it. |
+| Empty `SITE_URL` | Backward-compatible explicit preview. |
+| `SITE_PREVIEW` other than `1`, `0` or unset | Build failure; no accidental publication. |
+
+If a preview host does not expose an environment marker, set `SITE_PREVIEW=1` explicitly. Build-time configuration does not publish output or alter host response headers. After the owner authorizes publication, rebuild/redeploy and verify the actual production response; previously deployed output remains blocked until replaced.
 
 ## Implemented
 
@@ -44,8 +62,8 @@ Research completed with Firecrawl: two searches and nine scrapes, using primary 
 
 ## Launch checks that remain external
 
-1. Choose the real domain and host, then authorize publication separately.
-2. Build with SITE_URL and verify actual HTTP status codes, robots, canonical, sitemap, HTTPS and error handling on that host.
+1. The verified domain is `quadship.app` and the current public host is Vercel; authorize any new publication separately.
+2. Rebuild/redeploy the production output, then verify actual HTTP status codes, robots, canonical, sitemap, HTTPS and error handling on the host. Preview protection must be checked separately.
 3. Validate rendered structured data; add Search Console and Bing Webmaster Tools if desired.
 4. Measure mobile and desktop PageSpeed/CrUX field data after sufficient real traffic. Local responsive checks are not field performance measurements.
 

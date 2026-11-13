@@ -22,18 +22,24 @@ npm run test:e2e
 npm run preview
 ```
 
-The 19 unit/static tests inspect built HTML, crawl files, authorship, prelaunch status, branding and domain configuration. The 10 Playwright E2E tests use installed Google Chrome and Python3 to serve dist locally, verifying language, examples, CI states, motion, no-JavaScript and responsive behavior. Run the build before the tests. Use the same SITE_URL value for both commands when checking a production build.
+The unit/static tests inspect built HTML, crawl files, authorship, prelaunch status, branding and domain configuration. The Playwright E2E tests use installed Google Chrome and Python3 to serve dist locally, verifying language, examples, CI states, motion, no-JavaScript and responsive behavior. Run the build before the tests. Use the same build-mode environment for both commands when checking production or preview output.
 
-## Configure a future release
+## Production and preview builds
 
-Without `SITE_URL`, the build is a non-indexable preview. Set a real owned public HTTPS origin for canonical URLs, sitemap entries and indexable metadata. Environment values must be passed to the build process; this project does not automatically load a `.env` file.
+Production builds now default to the verified public origin `https://quadship.app/`, so a normal `npm run build` produces indexable metadata, canonical/social URLs and a populated sitemap without a missing environment variable blocking the live site. A different owned origin may still be supplied through `SITE_URL`; the same strict HTTPS-origin validator applies.
+
+Explicit previews must remain non-indexable:
 
 ```sh
-SITE_URL=https://your-owned-domain.tld npm run build
-SITE_URL=https://your-owned-domain.tld npm test
+SITE_PREVIEW=1 npm run build
+SITE_PREVIEW=1 npm test
 ```
 
-Publish only the generated `dist/` directory after separate authorization. Never publish source or development-only design/research files. Production hosting, DNS, security headers and submission to search engines are not configured here.
+`VERCEL_ENV=preview` and `VERCEL_ENV=development` also select the protected preview mode. Any supplied nonproduction Vercel environment fails closed to preview, even with `SITE_PREVIEW=0`. If a host does not provide an environment marker, set `SITE_PREVIEW=1` explicitly. An empty `SITE_URL` remains a backward-compatible preview override. `SITE_PREVIEW` accepts only `1`, `0` or an unset value; invalid values fail the build rather than accidentally publishing.
+
+Pass environment values to the build process; this project does not automatically load `.env` in its configuration. Preview output emits `noindex, nofollow`, `Disallow: /`, no canonical/social origin fields and an empty sitemap. Use the same environment when running built-output tests.
+
+Publish only the generated `dist/` directory after separate authorization. Never publish source or development-only design/research files. The current public host is Vercel; this code change does not mutate hosting settings, DNS, response headers or Search Console. Rebuilding and redeploying the corrected output is still required to change the live response.
 
 ## Edit
 
