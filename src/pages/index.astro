@@ -45,6 +45,8 @@ const faqs = [
     <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content={title} /><meta name="twitter:description" content={description} />
     {canonical && <meta name="twitter:image" content={new URL('social.png', canonical).href} />}
     <link rel="icon" href="/favicon.svg?v=quadship-2" type="image/svg+xml" />
+    <link rel="ard" href="/.well-known/ard.json" type="application/json" />
+    <link rel="ai-catalog" href="/.well-known/ai-catalog.json" type="application/json" />
     <script type="application/ld+json" set:html={JSON.stringify(structured).replace(/</g, '\\u003c')} />
   </head>
   <body>
@@ -66,6 +68,8 @@ const faqs = [
     <footer class="wrap site-footer"><Brand /><p>Proyecto independiente. En prealfa.</p><a href="https://mangel14.dev/es">Desarrollado por Miguel Bonilla <Arrow /></a></footer>
     <script>
       import '../scripts/client';
+      import { setupWebMCP } from '../scripts/webmcp';
+      setupWebMCP();
     </script>
   </body>
 </html>

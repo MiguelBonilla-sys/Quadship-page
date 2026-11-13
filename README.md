@@ -56,3 +56,8 @@ Publish only the generated `dist/` directory after separate authorization. Never
 - `DESIGN.md`: implemented design system.
 
 The user required preservation of the existing Spanish product documentation and brand. The landing uses professional Spanish and includes the original product definition verbatim. See `docs/BRAND-SOURCES.md` for source mapping. All primary content remains present on mobile. The site has no backend, signup form or analytics. Its small client script powers in-place English/Spanish, illustrative use-case/CI controls and a GSAP scroll-driven deployment story and selective progressive entrances with static accessibility fallbacks. No locale routes are generated. Plans must not be rewritten as shipped capabilities until verified against the product.
+
+
+## Browser-agent discovery
+
+See [AGENT-READINESS.md](docs/AGENT-READINESS.md) for the canonical ARD catalog, compatible ai-catalog aliases and two real read-only WebMCP tools. A genuine [Agent Skills document](public/skills/quadship-project/SKILL.md) is the discoverable artifact; the planned platform is not advertised as an operational MCP service. Native WebMCP support remains browser/origin-trial dependent; ordinary browsing works without it.

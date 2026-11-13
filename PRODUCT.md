@@ -47,7 +47,7 @@ The user explicitly requires preserving the existing naval/workshop identity in 
 
 ## Open Decisions
 
-The user delegated coherent design decisions and requested Firecrawl-backed SEO/GEO with mobile and desktop support. Code-led construction was selected; no image-comp approval is claimed. The user subsequently supplied original Spanish documentation and required preservation of its content and existing brand; the landing now preserves the original Spanish definition and uses professional Spanish copy. Hosting, public domain, launch date, and lead-collection infrastructure are unspecified. No publication is authorized.
+The user delegated coherent design decisions and requested Firecrawl-backed SEO/GEO with mobile and desktop support. Code-led construction was selected; no image-comp approval is claimed. The user subsequently supplied original Spanish documentation and required preservation of its content and existing brand; the landing now preserves the original Spanish definition and uses professional Spanish copy. At that initial design stage, hosting and the public domain were unspecified. The public origin is now verified as https://quadship.app on Vercel, and GitHub delivery on main was separately authorized. Launch date and lead-collection infrastructure remain unspecified; this request does not authorize hosting/account mutations.
 
 ## Explicit later requirements
 
@@ -55,8 +55,13 @@ English and Spanish share one URL with an in-page selector, not /es or /en route
 
 ## Latest reference-led redesign
 
-The user rejected the earlier composition and explicitly requested inspiration from Coolify and https://gsap.com/scroll/. Preserve identity/content but replace text-heavy sections and generic entrances with large causal diagrams and genuine scroll-scrubbed explanation. GSAP ScrollTrigger is a presentation dependency only; it does not add product capabilities. Keep no-JS/reduced-motion static fallbacks and mobile normal scrolling. No authorization for commits or publication was supplied.
+The user rejected the earlier composition and explicitly requested inspiration from Coolify and https://gsap.com/scroll/. Preserve identity/content but replace text-heavy sections and generic entrances with large causal diagrams and genuine scroll-scrubbed explanation. GSAP ScrollTrigger is a presentation dependency only; it does not add product capabilities. Keep no-JS/reduced-motion static fallbacks and mobile normal scrolling. That design request alone did not authorize publication; later GitHub delivery was separately authorized. Further hosting/account changes still require explicit consent.
 
 ## Attention and progressive entrance refinement
 
 The user subsequently requested stronger color attention, progressive appearances on downward scroll and less flatness. Preserve the navy/Oxide identity but concentrate bright Oxide on real primary actions and a short large headline; distinguish deep/reading/raised navy planes without added shadows. Selective once-only entrances accompany the existing scrubbed story, with keyboard, reduced-motion, no-JavaScript and animation-load fallback behavior. This explicitly supersedes the earlier absence of entrance animation, not the causal diagram or brand.
+
+
+## Search and browser-agent readiness
+
+The public build uses the verified quadship.app origin by default, while explicit and Vercel preview/development modes remain non-indexable. ARD discovery and legacy ai-catalog routes describe the actual landing and product document, not an operational remote MCP service. Two optional read-only WebMCP tools expose existing public project/author information with strict empty-object inputs. Browser/origin-trial support remains conditional; no token or universal support is claimed. No new forms, backend actions, data collection or locale routes are introduced.
