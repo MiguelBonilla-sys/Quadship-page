@@ -1,5 +1,13 @@
 import { test, expect } from '@playwright/test';
 
+async function approachStory(page) {
+  await page.evaluate(() => {
+    const story=document.querySelector('[data-scroll-story]');
+    scrollTo({top:story.getBoundingClientRect().top+scrollY-innerHeight+160,behavior:'instant'});
+  });
+  await expect(page.locator('[data-scroll-story]')).toHaveAttribute('data-scroll-mode',/desktop|mobile|reduced/);
+}
+
 test('language changes in place, updates metadata and survives a reload', async ({ page }) => {
   await page.goto('/');
   const url = page.url();
@@ -42,6 +50,7 @@ test('scroll drives the diagram and reduced motion restores a static reading lay
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
   const story = page.locator('[data-scroll-story]');
+  await approachStory(page);
   await expect(story).toHaveAttribute('data-scroll-mode', 'desktop');
   await expect(story).toHaveClass(/is-scroll-ready/);
   const initial = await page.locator('[data-story-wire="0"]').evaluate(e => parseFloat(getComputedStyle(e).strokeDashoffset));
@@ -111,6 +120,7 @@ test('capture the final design in both languages and target viewports', async ({
   await page.emulateMedia({reducedMotion:'no-preference'});
   await page.goto('/');
   const story = page.locator('[data-scroll-story]');
+  await approachStory(page);
   await expect(story).toHaveAttribute('data-scroll-mode','desktop');
   await page.evaluate(()=>document.fonts.ready);
   const scene = await story.evaluate(e=>({top:e.getBoundingClientRect().top+scrollY,height:e.offsetHeight}));
@@ -130,17 +140,20 @@ test('capture the final design in both languages and target viewports', async ({
 test('progressive entrances appear on scroll and never hide keyboard focus or reduced-motion content', async ({page})=>{
   await page.emulateMedia({reducedMotion:'no-preference'});
   await page.goto('/');
+  await approachStory(page);
   const copy=page.locator('.builder-copy');
   await expect(copy).toHaveAttribute('data-enter-state','pending');
   await copy.scrollIntoViewIfNeeded();
   await expect(copy).toHaveAttribute('data-enter-state','visible');
   await expect.poll(()=>copy.evaluate(e=>Number(getComputedStyle(e).opacity))).toBe(1);
   await page.goto('/');
+  await approachStory(page);
   await expect(copy).toHaveAttribute('data-enter-state','pending');
   await page.locator('.builder-copy a').focus();
   await expect(copy).toHaveAttribute('data-enter-state','visible');
   await expect.poll(()=>copy.evaluate(e=>Number(getComputedStyle(e).opacity))).toBe(1);
   await page.goto('/');
+  await approachStory(page);
   await expect(copy).toHaveAttribute('data-enter-state','pending');
   await page.emulateMedia({reducedMotion:'reduce'});
   await expect(page.locator('[data-enter-state="pending"]')).toHaveCount(0);
@@ -219,4 +232,21 @@ test('wave undulates only while visible, can be paused, and respects reduced mot
   const mobileClip = {x:mobileRect.x+20,y:mobileRect.y+300,width:300,height:16};
   const mobilePixels = await page.screenshot({clip:mobileClip});
   await expect.poll(async()=>!(await page.screenshot({clip:mobileClip})).equals(mobilePixels)).toBe(true);
+});
+
+test('scroll engine is requested only when the below-fold story approaches', async ({page}) => {
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  for (const [width,height] of [[390,844],[1440,900]]) {
+    await page.setViewportSize({width,height});
+    const chunks = [];
+    const track = request => { if (request.url().includes('/_astro/scroll-story.')) chunks.push(request.url()); };
+    page.on('request',track);
+    await page.goto('/',{waitUntil:'networkidle'});
+    expect(chunks).toHaveLength(0);
+    const story=page.locator('[data-scroll-story]');
+    await story.scrollIntoViewIfNeeded();
+    await expect.poll(()=>chunks.length).toBe(1);
+    await expect(story).toHaveAttribute('data-scroll-mode',width >= 900 ? 'desktop' : 'mobile');
+    page.off('request',track);
+  }
 });

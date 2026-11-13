@@ -29,3 +29,8 @@ The user requests padding review and a scroll background similar to Mailflare. P
 User: “generale animaicion de ola”. Animate the existing dot current as a slow travelling swell,±14 SVG units with a6-second phase-shifted period. Preserve all layout, product content and causal diagram motion. CSS owns column transforms; observer/visibility/preference state only gates playback. Pause offscreen/hidden; reduced motion and noJS remain static. Offer a translated44px pause/resume control beside the scroll introduction. Narrow screens may animate while visible, but do not gain desktop pinning. No new dependency or canvas loop.
 
 Latest user refinement: “sube la velocidad de la ola”. Period6seconds instead of9; amplitude and safeguards unchanged.
+
+
+## Search and agent-readiness refinement
+
+No visual-world replacement: retain all product copy, bilingual controls, six-second wave and sticky reading layout. Default production now uses the verified quadship.app origin, while explicit/Vercel previews remain blocked. Optional document-first WebMCP exposes only two bounded read-only public-information tools. One ARD manifest and ai-catalog aliases describe genuine Agent Skills instructions, never a fake backend or form. The lightweight wave initializes independently; GSAP imports only when motion is allowed and the story approaches200px. Initial static content remains visible. Local final Lighthouse and independent proof are documented separately; do not canonize scores or universal browser support as design rules.

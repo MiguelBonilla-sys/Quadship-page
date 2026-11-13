@@ -61,3 +61,8 @@ The user required preservation of the existing Spanish product documentation and
 ## Browser-agent discovery
 
 See [AGENT-READINESS.md](docs/AGENT-READINESS.md) for the canonical ARD catalog, compatible ai-catalog aliases and two real read-only WebMCP tools. A genuine [Agent Skills document](public/skills/quadship-project/SKILL.md) is the discoverable artifact; the planned platform is not advertised as an operational MCP service. Native WebMCP support remains browser/origin-trial dependent; ordinary browsing works without it.
+
+
+## Test prerequisites
+
+Use Node22.23.4 or newer, Python3 and an installed desktop Google Chrome. The suite deliberately selects Playwright's `chrome` channel; Playwright-managed Chromium alone is not sufficient. The native WebMCP check can skip unavailable API support, but Chrome itself is a prerequisite for the suite.

@@ -1,4 +1,5 @@
 import { translations, englishMetadata } from "../lib/translations.mjs";
+import { setupWave } from "./wave";
 
 type Language = "es" | "en";
 const dictionary: Record<string, string> = translations;
@@ -140,11 +141,15 @@ for (const example of document.querySelectorAll<HTMLElement>(".ci-explainer")) {
         result.hidden = result.dataset.ciResult !== button.dataset.ci;
     });
 }
-// The essential page never depends on the animation module loading.
+// The lightweight background is independent from the below-fold GSAP engine.
+setupWave();
+// Essential content remains visible while the optional story engine is deferred.
 let scrollStoryLoaded = false;
+let storyApproached = false;
+const scrollRoot = document.querySelector<HTMLElement>("[data-scroll-story]");
 const motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
 function loadScrollStory() {
-  if (scrollStoryLoaded || motionPreference.matches) return;
+  if (scrollStoryLoaded || !storyApproached || motionPreference.matches) return;
   scrollStoryLoaded = true;
   import("./scroll-story")
     .then(({ setupScrollStory }) => setupScrollStory())
@@ -162,5 +167,16 @@ function loadScrollStory() {
         ?.classList.remove("is-scroll-ready");
     });
 }
-loadScrollStory();
+if (scrollRoot && "IntersectionObserver" in window) {
+  const observer = new IntersectionObserver(([entry]) => {
+    if (!entry.isIntersecting) return;
+    storyApproached = true;
+    observer.disconnect();
+    loadScrollStory();
+  }, { rootMargin: "200px 0px" });
+  observer.observe(scrollRoot);
+} else if (scrollRoot) {
+  storyApproached = true;
+  loadScrollStory();
+}
 motionPreference.addEventListener("change", loadScrollStory);

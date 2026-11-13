@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-13T11:17:19.698Z",
+  "generatedAt": "2026-11-13T18:05:47.918Z",
   "title": "Design System: QuadShip",
   "extensions": {
     "colorMeta": {
@@ -426,9 +426,9 @@
     "wave": {
       "control": "Native translated pause/resume button; min-height44px, deep fill, light ink, 4px corners and 8px12px padding; hidden without ready non-reduced enhancement.",
       "gating": "IntersectionObserver, document visibility and reduced-motion preference gate CSS play state. Explicit pause choice survives offscreen/reentry.",
-      "fallback": "No JS, unavailable observer, module failure or reduced motion leaves the complete static field and hides the animation-only control.",
+      "fallback": "Missing base-client JavaScript or IntersectionObserver, or reduced motion, leaves a static field and hides the animation-only control. Deferred GSAP import/failure/teardown does not own or disable the independently initialized wave.",
       "paintInvariant": "Directly painted SVG column groups in both fields. Computed transforms on defs/use source groups did not prove visible movement; regression evidence compares actual rendered dot pixels.",
-      "ownership": "Wave owns only dot-column transforms; stage geometry, diagram scrub and entrance wrappers retain their independent ownership."
+      "ownership": "The base client initializes setupWave independently. Wave owns only dot-column transforms; deferred GSAP owns the scrubbed story and its separate entrance controller. No story lifecycle teardown owns wave state."
     },
     "favicon": {
       "asset": "public/favicon.svg",
@@ -437,6 +437,11 @@
       "defaultAppearance": "Original Casco #13233A with oxide #B4442A accent.",
       "darkAppearance": "Embedded @media (prefers-color-scheme: dark): ink #E6ECF2, accent #E8714F.",
       "provenance": "Adaptive CSS/class derivative of the original geometry, not a byte-identical source copy. Does not replace the separate visible page-mark asset."
+    },
+    "motionLoading": {
+      "story": "Dynamic GSAP/story import is gated by permitted motion and a one-shot IntersectionObserver with rootMargin \"200px 0px\". It disconnects once the story approaches. If IntersectionObserver is unavailable, use immediate permitted-motion fallback.",
+      "wave": "Lightweight setupWave initializes from the base client independently of GSAP proximity/import/teardown. Existing6s ±14-unit CSS wave and pause/visibility/preference gating are unchanged.",
+      "fallback": "Essential story and entrance content starts visible and remains static during delayed/failed GSAP loading; wave retains its own readiness and gating. No performance score or Lighthouse outcome is implied."
     }
   },
   "components": [

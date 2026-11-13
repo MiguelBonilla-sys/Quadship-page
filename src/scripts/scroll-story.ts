@@ -1,7 +1,6 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { setupEntrances } from "./entrances";
-import { setupWave } from "./wave";
 
 gsap.registerPlugin(ScrollTrigger);
 export function setupScrollStory() {
@@ -121,10 +120,8 @@ export function setupScrollStory() {
     },
   );
   const stopEntrances = setupEntrances();
-  const stopWave = setupWave();
   return () => {
     stopEntrances();
-    stopWave();
     media.revert();
   };
 }

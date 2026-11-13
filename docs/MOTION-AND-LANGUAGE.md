@@ -12,11 +12,11 @@ The user requested coherent scroll animation, English/Spanish without locale rou
 | CI example | Passed/failed controls demonstrate the intended version1 gate. A failed check stops the illustrated path; nothing is deployed. Text and distinct glyphs communicate both states. |
 | Project compartments | Static, labeled project boundaries explain the isolation model without implying absolute security. |
 | Builder | Original mark and truthful development attribution; no invented milestones or adoption metrics. |
-| Reading sections | Content is immediately visible. The desktop story uses native sticky positioning; generic whole-section fades, scroll hijacking, background parallax and perpetual loops are absent. |
+| Reading sections | Content is immediately visible. The desktop story uses native sticky positioning; generic whole-section fades and scroll hijacking are absent. The explicitly requested wave is separately controlled and pauses offscreen, in hidden tabs or by the visitor. |
 
 All fundamental content remains in server-rendered HTML. Without JavaScript, section visibility is unchanged and the first illustrative example stays readable. Enhanced-only buttons are hidden until their handlers are ready. Native FAQ disclosure works independently of scripts.
 
-Reduced-motion preferences keep a complete static diagram and ordinary document layout. GSAP is dynamically imported only when motion is allowed, and matchMedia reverts animations when preferences or breakpoints change. Failed module loading leaves essential content visible. The previous IntersectionObserver reveal system is removed. There are no autoplaying sound or video assets.
+Reduced-motion preferences keep a complete static diagram and ordinary document layout. GSAP is dynamically imported only when motion is allowed and the story approaches the viewport, and matchMedia reverts animations when preferences or breakpoints change. Failed module loading leaves essential content visible. The previous IntersectionObserver reveal system is removed. There are no autoplaying sound or video assets.
 
 ## One URL, two languages
 
@@ -43,3 +43,8 @@ The latest reference-led composition and verified scroll behavior are documented
 ## Latest user-directed entrances
 
 The user explicitly requested parts appearing while scrolling after the reference-led redesign. Selective offscreen wrappers now have independent one-shot GSAP entrances; they do not animate the sticky diagram’s controlled properties or restore the rejected whole-section observer. Content stays visible by default. Keyboard focus completes a pending group immediately; reduced motion reverts styles and state; failed module initialization clears any pending inline appearance styles. See [COLOR-AND-ENTRANCES.md](COLOR-AND-ENTRANCES.md).
+
+
+## Measured loading refinement
+
+The story-proximity IntersectionObserver gates the optional GSAP import; it is not the removed generic reveal observer. The lightweight wave initializes independently, so its controls and visibility/preference safeguards do not wait for the larger story engine. Baseline/current browser probes observed one initial GSAP request before this change and zero afterward on both mobile and desktop, followed by a single request near the story. The resource is deferred, not eliminated; no FCP/LCP gain is promised. Core CSS and fonts remain unchanged because the measured baseline reported no associated rendering savings.

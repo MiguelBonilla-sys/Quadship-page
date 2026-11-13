@@ -3,8 +3,8 @@
 ## Observed checks
 
 - Astro static production build: passed.
-- Unit/static tests: 19 passed for the latest preview build; configured-origin checks were verified in earlier iterations.
-- Playwright E2E in installed Google Chrome: 10 passed.
+- Unit/static tests: 30 passed for the latest default-production build; preview/custom-origin matrices passed during isolated verification.
+- Playwright E2E in installed Google Chrome: 16 passed.
 - Responsive overflow checks: 320, 390, 768 and 1440px, both languages and all illustrative use cases.
 - Language selector: text, document language, metadata, pressed state and persistence update without navigation. Blocked storage remains usable.
 - Application examples and passed/blocked CI controls: expected visible/hidden and pressed states.
@@ -50,3 +50,19 @@ The first CSS implementation animated source groups inside SVG defs/use, but the
 
 
 Latest refinements: wave period changed from9 to6seconds (50% faster). Favicon now preserves original geometry with adaptive light/dark-tab colors and a versioned URL. The favicon regression was observed RED then GREEN.
+
+
+## Search and agent readiness: current local proof
+
+The published baseline was independently reproduced with Lighthouse13.6: performance/accessibility/best-practices100, SEO66 and agentic100; indexing was blocked by missing production origin. The corrected default build uses https://quadship.app, with explicit/Vercel preview guards. Independent verification passed the whole feature: clean install/build,29 pre-correction tests plus16 E2E, four configuration matrices, invalid-config rejection,11 unchanged resolver outcomes and12 rejected native tool inputs without state/storage/network mutation. Full npm audit reported0 vulnerabilities. The final artifact correction raised the Node count to30; all16 E2E still pass.
+
+A full final local Lighthouse13.6 run with the verified Chrome157 WebMCP test flag scored100 in all five categories. ARD schema, native tool schemas, actual registration/discovery and crawlability pass. The earlier catalog's generic media-type warnings were fixed by publishing genuine Agent Skills instructions, not relabeling HTML/product content. A scoped independent recheck validated its frontmatter, exact recognized profile, real HTTP resource and byte-identical aliases. Form coverage correctly remains Not applicable because this page has no form.
+
+Measured loading improvement: the original story/GSAP chunk was requested immediately, while the candidate makes zero initial requests on both mobile and desktop and requests it once near the story. This defers47,729 transferred bytes; it does not remove the resource or establish a faster FCP/LCP. CSS/fonts were retained because baseline measurements showed no corresponding savings or useful extra preconnect candidates. Existing unweighted language-label and network-chain diagnostics remain baseline advisories.
+
+These are local lab results, not a deployed score or field-data guarantee. The live site remains on its previous build until publication. Unflagged/native WebMCP availability depends on browser support or a valid owner-issued origin-trial token; no token or universal support is fabricated. No standalone tsc runner is configured. The fresh UX-preservation review returned ship with no material fixes.
+
+
+## Current native review outcomes
+
+The production/preview SEO commit8a82b58 completed three native review perspectives with no findings; its exact approved acknowledgement closed and burned that authority. The browser-agent commit2b8feb4 completed four perspectives and was approved without blockers; its exact acknowledgement also closed and burned that separate authority. A nonblocking test-environment warning recommended making installed Chrome explicit; README now states that prerequisite, consistent with the existing suite-wide `chrome` channel. No browser fallback or product behavior was changed to silence it. These review outcomes do not authorize publication or claim a deployed score.
