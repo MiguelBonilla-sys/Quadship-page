@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.astro/
+.env*
+!.env.example
+.firecrawl/
+.impeccable/review/
+.impeccable/cache/
+
+test-results/
+playwright-report/
+
+# Local agent registry contains machine-specific paths.
+.atl/
