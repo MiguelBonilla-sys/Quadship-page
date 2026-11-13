@@ -1,0 +1,26 @@
+---
+// Column phases bend the halftone current without animating every individual dot.
+const dots: { x: number; y: number; radius: number; warm: boolean }[] = [];
+for (let x = 0; x <= 1440; x += 12) {
+  const center = 280 + Math.sin(x / 260) * 150;
+  for (let y = 0; y <= 800; y += 12) {
+    const distance = Math.abs(y - center);
+    const weight = Math.max(0, 1 - distance / 120);
+    // Keep the left reading lane quiet; the diagram itself has an opaque surface.
+    const edge = 0.35 + (x / 1440) * 0.65;
+    const radius = weight * edge * 2.2;
+    if (radius > 0.35) dots.push({ x, y, radius, warm: x > 1120 });
+  }
+}
+---
+<div class="scroll-backdrop" aria-hidden="true">
+  {[0, 1].map(() => (
+    <svg viewBox="0 0 1440 800" preserveAspectRatio="xMidYMid slice" focusable="false">
+      {Array.from(new Set(dots.map(dot => dot.x))).map(x => (
+        <g data-wave-column style={`--wave-phase: ${(-x / 1440 * 6).toFixed(3)}s`}>
+          {dots.filter(dot => dot.x === x).map(dot => <circle cx={dot.x} cy={dot.y} r={dot.radius.toFixed(2)} fill={dot.warm ? '#E8714F' : '#91AFCD'} fill-opacity={dot.warm ? '.25' : '.32'} />)}
+        </g>
+      ))}
+    </svg>
+  ))}
+</div>

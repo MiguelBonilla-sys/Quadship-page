@@ -1,0 +1,10 @@
+# QuadShip
+
+> PaaS self-hosted en Rust, en prealfa. Próximamente; no disponible para producción.
+
+- [Resumen del producto](/product.md): definición original, arquitectura objetivo, estado y liderazgo del desarrollo.
+- [Portafolio del líder de desarrollo](https://mangel14.dev/es): Miguel Ángel Bonilla Torres, desarrollo integral y contacto.
+
+## Contexto importante
+
+Esta web presenta un proyecto en desarrollo, no un servicio de alojamiento disponible. Las capacidades previstas no deben describirse como funcionalidades terminadas. No hay una fecha de lanzamiento. Este archivo es un complemento opcional del HTML; no garantiza indexación ni citas de IA.

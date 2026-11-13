@@ -1,0 +1,42 @@
+---
+import CIGate from './CIGate.astro';
+import ScrollBackdrop from './ScrollBackdrop.astro';
+---
+<section id="why" class="scroll-explainer" aria-labelledby="story-title">
+  <ScrollBackdrop />
+  <div class="scroll-stage-content wrap">
+  <div class="chapter-heading" data-enter="rise"><h2 id="story-title">Del código.<br />A las personas.</h2><p>Desplázate y sigue el recorrido. Una aplicación no termina en tu equipo: necesita llegar a quienes la van a usar.<button class="wave-toggle" data-wave-toggle type="button"><span data-wave-pause>Pausar ola</span><span data-wave-resume hidden>Reanudar ola</span></button></p></div>
+  <div id="journey" class="scroll-story" data-scroll-story data-story-phase="overview">
+    <div class="story-narrative">
+      <article class="story-step" data-story-step="0"><span class="story-step-mark" aria-hidden="true"></span><div class="story-step-copy" data-enter="rise"><h3>Todo empieza<br />con tu aplicación.</h3><p>Una web, unas reservas o una herramienta interna. Tú construyes la aplicación; QuadShip busca ayudarte a llevarla a internet.</p><span class="story-term">Código → comprobaciones</span></div></article>
+      <article class="story-step" data-story-step="1"><span class="story-step-mark" aria-hidden="true"></span><div class="story-step-copy" data-enter="rise"><h3>Antes de publicar,<br />hay que comprobar.</h3><p>El diseño verifica los checks del mismo commit. Si fallan, el despliegue no avanza. No es solo mover archivos: es decidir cuándo hacerlo.</p><span class="story-term">El CI como condición</span></div></article>
+      <article class="story-step" data-story-step="2"><span class="story-step-mark" aria-hidden="true"></span><div class="story-step-copy" data-enter="rise"><h3>Tu servidor.<br />Personas al otro lado.</h3><p>La aplicación se ejecuta en la infraestructura que eliges. Del otro lado, alguien abre tu web, consulta una reserva o usa la herramienta de su equipo.</p><span class="story-term">Servidor → personas</span></div></article>
+    </div>
+    <figure class="story-figure" aria-labelledby="story-diagram-title">
+      <div class="story-figure-top"><span id="story-diagram-title">El recorrido de tu aplicación</span><span class="development-label">Modelo conceptual</span></div>
+      <svg class="story-svg" viewBox="0 0 700 560" role="img" aria-labelledby="story-svg-title story-svg-desc">
+        <title id="story-svg-title">Aplicación, comprobaciones, servidor y personas</title><desc id="story-svg-desc">El código pasa por una comprobación de CI antes de llegar al servidor. Las personas acceden a la aplicación desde internet.</desc>
+        <g class="story-routes" fill="none"><path d="M175 180C175 260 350 210 350 290M350 370C350 420 540 340 540 425"/><path d="M540 475V510H610"/></g>
+        <g class="story-routes active-routes" fill="none"><path data-story-wire="0" d="M175 180C175 260 350 210 350 290"/><path data-story-wire="1" d="M350 370C350 420 540 340 540 425"/><path data-story-wire="2" d="M540 475V510H610"/></g>
+        <g class="story-app-node"><rect class="node-frame" x="60" y="60" width="230" height="120" rx="6"/><path class="node-detail" d="M60 88h230M75 74h4m8 0h4m8 0h4"/><rect class="node-preview" x="80" y="105" width="54" height="54" rx="3"/><path class="node-detail" d="M150 115h115m-115 18h85m-85 18h95"/><text x="60" y="220">Tu aplicación</text><text class="node-subtitle" x="60" y="242">Lo que construyes</text></g>
+        <g class="story-gate-node"><rect class="node-frame" x="260" y="290" width="180" height="80" rx="6"/><path class="gate-check" d="m280 327 12 12 22-25"/><text x="328" y="326">Checks de CI</text><text class="node-subtitle" x="328" y="348">Antes de publicar</text></g>
+        <g class="story-server-node"><rect class="node-frame" x="450" y="425" width="180" height="50" rx="5"/><path class="node-detail" d="M470 443h4m8 0h4m30 0h90m-136 16h136"/><text x="450" y="402">Tu servidor</text><text class="node-subtitle" x="460" y="542">Donde se ejecuta</text></g>
+        <g class="story-people-node"><circle cx="639" cy="489" r="9"/><path d="M621 520v-7a18 18 0 0 1 36 0v7"/></g>
+        <circle class="story-packet" data-story-packet cx="175" cy="180" r="5"/>
+      </svg>
+      <div class="story-mobile-map" role="group" aria-label="Aplicación, comprobaciones, servidor y personas">
+        <div class="story-mobile-node"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="4" y="7" width="32" height="25" rx="2"/><path d="M4 14h32M10 10h2m4 0h2"/></svg><div><strong>Tu aplicación</strong><span>Lo que construyes</span></div></div>
+        <span class="story-mobile-connector" aria-hidden="true"></span>
+        <div class="story-mobile-node"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15"/><path d="m11 20 6 6 12-13"/></svg><div><strong>Checks de CI</strong><span>Antes de publicar</span></div></div>
+        <span class="story-mobile-connector" aria-hidden="true"></span>
+        <div class="story-mobile-node"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="6" width="30" height="11" rx="2"/><rect x="5" y="24" width="30" height="11" rx="2"/><path d="M10 11h3m8 0h9m-20 18h3m8 0h9"/></svg><div><strong>Tu servidor</strong><span>Donde se ejecuta</span></div></div>
+        <span class="story-mobile-connector" aria-hidden="true"></span>
+        <div class="story-mobile-node"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="12" r="7"/><path d="M7 35v-7a13 13 0 0 1 26 0v7"/></svg><div><strong>Las personas</strong><span>Quienes la necesitan</span></div></div>
+      </div>
+      <figcaption>Flujo previsto para la versión 1. QuadShip sigue en desarrollo.</figcaption>
+      <div class="story-progress" aria-hidden="true"><span></span></div>
+    </figure>
+  </div>
+  <CIGate />
+  </div>
+</section>

@@ -1,0 +1,68 @@
+---
+import '@fontsource-variable/archivo/standard.css';
+import '@fontsource-variable/atkinson-hyperlegible-next';
+import '../styles/global.css';
+import Brand from '../components/Brand.astro';
+import Arrow from '../components/Arrow.astro';
+import ProductVisual from '../components/ProductVisual.astro';
+import CIGate from '../components/CIGate.astro';
+import IsolationVisual from '../components/IsolationVisual.astro';
+import HeroDiagram from '../components/HeroDiagram.astro';
+import ScrollStory from '../components/ScrollStory.astro';
+const title = 'QuadShip — PaaS self-hosted en Rust. Próximamente.';
+const description = 'QuadShip: una plataforma en desarrollo para desplegar aplicaciones en tus servidores. Aislamiento rootless por proyecto, CI antes del deploy y MCP con control humano.';
+const canonical = Astro.site?.href;
+const definition = 'Es un PaaS self-hosted en Rust: Podman rootless con un usuario Linux por proyecto, supervisión nativa con systemd/Quadlet, Caddy con HTTPS automático, deploy que solo avanza cuando el CI está en verde y un servidor MCP de primera clase con aprobaciones humanas para las acciones destructivas.';
+const author = { '@type': 'Person', '@id': 'https://mangel14.dev/#person', name: 'Miguel Ángel Bonilla Torres', url: 'https://mangel14.dev' };
+const structured = { '@context': 'https://schema.org', '@graph': [author, { '@type': 'SoftwareApplication', name: 'QuadShip', applicationCategory: 'DeveloperApplication', operatingSystem: 'Linux', description, author: { '@id': author['@id'] }, ...(canonical ? { url: canonical } : {}) }, ...(canonical ? [{ '@type': 'WebSite', name: 'QuadShip', url: canonical, inLanguage: 'es', author: { '@id': author['@id'] } }] : [])] };
+const foundations = [
+  ['Podman + Quadlet', 'Aislamiento por proyecto', 'Contenedores rootless y un usuario Linux por proyecto, con supervisión nativa de systemd. El aislamiento de las aplicaciones es una decisión de arquitectura, no un añadido.'],
+  ['CI antes del deploy', 'El mismo commit, verificado', 'El diseño condiciona el despliegue a los checks requeridos del commit exacto. También contempla despliegues desde GitHub Actions mediante OIDC, sin secretos de larga duración.'],
+  ['UI · API · CLI · MCP', 'Personas y agentes, con límites', 'Una operación, distintas formas de acceder. Permisos acotados y aprobaciones humanas para las acciones destructivas solicitadas por agentes.'],
+  ['Bases de datos', 'Acceso propio para cada aplicación', 'Bindings con bases de datos gestionadas o externas: usuarios por aplicación, privilegios limitados y rotación de credenciales.'],
+  ['Caddy + PostgreSQL', 'Conexión y trazabilidad', 'HTTPS automático con Caddy y PostgreSQL como fuente de verdad, junto con un registro de auditoría encadenado por hashes.'],
+  ['LLM opcional', 'Ayuda para entender, no para ejecutar', 'El diseño permite usar una clave propia para explicar problemas, resumir PRs y diagnosticar despliegues fallidos. Solo texto: sin ejecución autónoma.']
+];
+const faqs = [
+  ['¿Qué es un PaaS self-hosted?', 'Una plataforma para desplegar y administrar aplicaciones en infraestructura propia. En lugar de alojarlas en un servicio que decide por ti dónde corren, eliges tus servidores y mantienes su control. Operarlos sigue requiriendo conocimientos técnicos.'],
+  ['¿Ya puedo usar QuadShip?', 'Todavía no. QuadShip está en prealfa y no está listo para producción. No hay una fecha de lanzamiento anunciada. Esta página presenta el proyecto y sus objetivos; no ofrece un servicio de alojamiento disponible.'],
+  ['¿Para quién está pensado?', 'La especificación está orientada a desarrolladores independientes y equipos pequeños de 2 a 10 personas que operan sus propios VPS. Esta página también explica la propuesta sin exigir que conozcas cada tecnología.'],
+  ['¿Qué parte está disponible y qué parte es un objetivo?', 'La documentación define las funcionalidades objetivo de la versión 1. La implementación sigue en desarrollo. El aislamiento por proyecto, los flujos de despliegue, las integraciones y las capacidades descritas aquí no deben interpretarse como una lista de funcionalidades terminadas.'],
+  ['¿La IA puede ejecutar acciones por su cuenta?', 'El diseño separa dos cosas: el servidor MCP para herramientas compatibles, con permisos y aprobaciones humanas, y una asistencia LLM opcional con clave propia que solo produce texto. No se promete ejecución autónoma ni un despliegue sin supervisión.']
+];
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="theme-color" content="#13233A" />
+    <title>{title}</title><meta name="description" content={description} />
+    <meta name="robots" content={canonical ? 'index, follow, max-image-preview:large' : 'noindex, nofollow'} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="website" /><meta property="og:locale" content="es_CO" /><meta property="og:site_name" content="QuadShip" />
+    <meta property="og:title" content={title} /><meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}{canonical && <meta property="og:image" content={new URL('social.png', canonical).href} />}
+    <meta property="og:image:alt" content="QuadShip. Un PaaS self-hosted en Rust. Próximamente." />
+    <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content={title} /><meta name="twitter:description" content={description} />
+    {canonical && <meta name="twitter:image" content={new URL('social.png', canonical).href} />}
+    <link rel="icon" href="/favicon.svg?v=quadship-2" type="image/svg+xml" />
+    <script type="application/ld+json" set:html={JSON.stringify(structured).replace(/</g, '\\u003c')} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Saltar al contenido</a>
+    <header class="site-header wrap"><Brand /><nav aria-label="Navegación principal"><a href="#why">El proyecto</a><a href="#inside">La arquitectura</a><a href="#builder">Quién lo construye</a></nav><div class="header-tools"><div class="language-control" role="group" aria-label="Idioma"><button type="button" data-language="es" aria-pressed="true" aria-label="Español">ES</button><button type="button" data-language="en" aria-pressed="false" aria-label="English">EN</button></div><span class="launch-status"><span aria-hidden="true"></span> Próximamente</span></div></header>
+    <main id="main">
+      <section class="hero" aria-labelledby="hero-title"><div class="wrap hero-inner">
+        <div class="hero-copy"><h1 id="hero-title">Tu aplicación, en línea.<br /><span>El control, en tus manos.</span></h1><p class="hero-description">Tu web, tus reservas o la herramienta de tu equipo.<br />Tu aplicación necesita un lugar donde funcionar. QuadShip está en desarrollo para ayudarte a publicarla en tus servidores, con aislamiento y control humano.</p><div class="hero-actions"><a class="button button-inverse" href="#why">Mira cómo funciona <Arrow /></a><a class="text-link light" href="#builder">Conoce a quien lo construye <Arrow /></a></div></div>
+        <HeroDiagram /><div class="hero-note"><span>Self-hosted. Aislamiento. Control humano.</span><span>En prealfa · Aún no disponible</span></div>
+      </div></section>
+      <ScrollStory />
+      <div class="application-region"><ProductVisual /></div>
+      
+      <section id="inside" class="section wrap engineering" aria-labelledby="inside-title"><div class="engineering-heading" data-enter="rise"><h2 id="inside-title">Compartimentos separados.<br />Un sistema completo.</h2><p>La identidad de QuadShip parte de la misma idea que su arquitectura: precisión, aislamiento y calma. Los fundamentos están definidos; su implementación sigue en desarrollo.</p><span class="development-label">Arquitectura objetivo · No listo para producción</span></div><IsolationVisual /><details class="technical-sheet" data-enter="rise"><summary>Los detalles, para quien los quiera.<span aria-hidden="true"></span></summary><div class="source-definition"><h3>La definición original del proyecto</h3><blockquote><p>{definition}</p></blockquote><span class="development-label">Definición de la especificación · Objetivo de la versión 1</span></div><dl class="architecture">{foundations.map(([name, purpose, detail]) => <div><dt><span>{name}</span><small>{purpose}</small></dt><dd>{detail}</dd></div>)}</dl></details><p class="architecture-note">“Rootless” describe las cargas de las aplicaciones, no una promesa de que ningún componente use privilegios. Las capacidades anteriores pertenecen al objetivo de la versión 1; no son métricas ni garantías de producción.</p></section>
+      <section id="builder" class="builder-section" aria-labelledby="builder-title"><div class="wrap builder-layout"><div class="builder-mark" data-enter="side" aria-hidden="true"><img src="/quadship-mark.svg" alt="" width="180" height="180" /><span>quadship</span></div><div class="builder-copy" data-enter="rise"><h2 id="builder-title">De la arquitectura<br />al sistema completo.</h2><p class="builder-name">Miguel Ángel Bonilla Torres</p><p class="builder-role">Líder del desarrollo integral de QuadShip</p><p>Lidero el desarrollo integral del sistema: la arquitectura, el backend, la interfaz y la experiencia de despliegue, conectados como partes de un mismo producto.</p><p>En mi portafolio puedes conocer mi trabajo y mi enfoque de desarrollo, o ponerte en contacto para conversar sobre QuadShip.</p><a class="button button-dark" href="https://mangel14.dev/es">Visita mi portafolio <Arrow /></a><span class="external-caption">mangel14.dev · Mi sitio personal</span></div></div></section>
+      <section class="section wrap faq" aria-labelledby="faq-title"><h2 id="faq-title" data-enter="rise">Antes de zarpar,<br />las cosas claras.</h2><div class="faq-list" data-enter="rise">{faqs.map(([question, answer]) => <details><summary>{question}<span aria-hidden="true"></span></summary><p>{answer}</p></details>)}</div></section>
+      <section class="closing" aria-labelledby="closing-title"><div class="wrap closing-inner"><div><h2 id="closing-title">QuadShip está<br />en construcción.</h2><p>La dirección está definida. El lanzamiento, todavía no.</p></div><div class="closing-action"><span class="launch-status inverse"><span aria-hidden="true"></span> Próximamente</span><a class="button button-inverse" href="https://mangel14.dev/es#contacto">Hablemos del proyecto <Arrow /></a><small>Contacto a través de mi portafolio.</small></div></div></section>
+    </main>
+    <footer class="wrap site-footer"><Brand /><p>Proyecto independiente. En prealfa.</p><a href="https://mangel14.dev/es">Desarrollado por Miguel Bonilla <Arrow /></a></footer>
+  </body>
+</html>
