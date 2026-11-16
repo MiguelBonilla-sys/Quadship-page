@@ -51,3 +51,13 @@ This local native test is not proof of universal, unflagged production support. 
 ## Recognized artifact correction
 
 The initial schema-valid catalog advertised generic HTML/Markdown and received low-severity Lighthouse media-type warnings. A regression rule was observed RED, then the catalog was changed to advertise a genuine Agent Skills document rather than relabeling the HTML or summary. Its structure follows the [Agent Skills specification](https://agentskills.io/specification). This is a public discovery artifact, not an installed repository-development skill; no personal skill installation or AGENTS.md registration is performed. Its Proprietary metadata does not grant a new open-source license to the application.
+
+## Owner-issued production origin trial
+
+The owner supplied a public WebMCP trial token for `https://quadship.app:443`. Its payload permits subdomains, but this build publishes it only for the canonical `https://quadship.app` origin. It expires at March30,2027,00:00UTC (March29,2027,19:00 in Bogotá). Keep the public token and its matching expiry in `src/lib/webmcp-origin-trial.mjs`; renew both together before expiration. This token is intentionally visible in HTML, not an API key or account credential.
+
+The head meta tag precedes client modules. Development, explicit previews, unrelated production origins and expired builds omit it. An already-deployed expired token is ignored by Chrome; the existing feature detection keeps ordinary page controls usable. No fake forms, new tools, broader cross-origin exposure or browser flags are added.
+
+The production meta rule was observed RED before implementation, then passed. Unit checks cover payload/expiry consistency and production/preview/origin boundaries. A native Chrome test uses no experimental flags: it serves candidate build bytes at the token's HTTPS origin only inside an isolated browser, discovers both real tools and executes project information. This validates browser acceptance of the signed token without mutating the live site; deployed activation still needs publication and a live check.
+
+The secret scanner exception is limited to the one public token declaration (`gitleaks:allow`); no credential category or repository-wide rule is disabled.

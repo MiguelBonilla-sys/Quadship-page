@@ -9,9 +9,11 @@ import CIGate from '../components/CIGate.astro';
 import IsolationVisual from '../components/IsolationVisual.astro';
 import HeroDiagram from '../components/HeroDiagram.astro';
 import ScrollStory from '../components/ScrollStory.astro';
+import { getWebMCPOriginTrialToken } from '../lib/webmcp-origin-trial.mjs';
 const title = 'QuadShip — PaaS self-hosted en Rust. Próximamente.';
 const description = 'QuadShip: una plataforma en desarrollo para desplegar aplicaciones en tus servidores. Aislamiento rootless por proyecto, CI antes del deploy y MCP con control humano.';
 const canonical = Astro.site?.href;
+const webmcpTrialToken = import.meta.env.DEV ? undefined : getWebMCPOriginTrialToken(Astro.site);
 const definition = 'Es un PaaS self-hosted en Rust: Podman rootless con un usuario Linux por proyecto, supervisión nativa con systemd/Quadlet, Caddy con HTTPS automático, deploy que solo avanza cuando el CI está en verde y un servidor MCP de primera clase con aprobaciones humanas para las acciones destructivas.';
 const author = { '@type': 'Person', '@id': 'https://mangel14.dev/#person', name: 'Miguel Ángel Bonilla Torres', url: 'https://mangel14.dev' };
 const structured = { '@context': 'https://schema.org', '@graph': [author, { '@type': 'SoftwareApplication', name: 'QuadShip', applicationCategory: 'DeveloperApplication', operatingSystem: 'Linux', description, author: { '@id': author['@id'] }, ...(canonical ? { url: canonical } : {}) }, ...(canonical ? [{ '@type': 'WebSite', name: 'QuadShip', url: canonical, inLanguage: 'es', author: { '@id': author['@id'] } }] : [])] };
@@ -34,6 +36,7 @@ const faqs = [
 <!doctype html>
 <html lang="es">
   <head>
+    {webmcpTrialToken && <meta http-equiv="origin-trial" content={webmcpTrialToken} />}
     <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="theme-color" content="#13233A" />
     <title>{title}</title><meta name="description" content={description} />
     <meta name="robots" content={canonical ? 'index, follow, max-image-preview:large' : 'noindex, nofollow'} />
