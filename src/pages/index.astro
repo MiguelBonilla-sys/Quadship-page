@@ -72,7 +72,9 @@ const faqs = [
     <script>
       import '../scripts/client';
       import { setupWebMCP } from '../scripts/webmcp';
+      import { inject } from '@vercel/analytics';
       setupWebMCP();
+      inject();
     </script>
   </body>
 </html>
