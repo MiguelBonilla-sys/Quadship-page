@@ -28,8 +28,9 @@ test('crawl policy and canonical match the build mode and validated origin', () 
     assert.ok(sitemap.includes(`${new URL(site).origin}/`)); assert.match(robots, /Allow: \//);
     assert.ok(robots.includes(`Sitemap: ${new URL('sitemap.xml', site).href}`));
     assert.ok(html.includes(`property="og:url" content="${site}"`));
-    assert.ok(html.includes(`property="og:image" content="${new URL('social.png', site).href}"`));
-    assert.ok(html.includes(`name="twitter:image" content="${new URL('social.png', site).href}"`));
+    const socialImage = new URL('social.png?v=quadship-3', site).href;
+    assert.ok(html.includes(`property="og:image" content="${socialImage}"`));
+    assert.ok(html.includes(`name="twitter:image" content="${socialImage}"`));
   } else {
     assert.match(html, /content="noindex, nofollow"/); assert.doesNotMatch(html, /rel="canonical"/);
     assert.match(robots, /Disallow: \//); assert.doesNotMatch(sitemap, /<loc>/);
@@ -44,4 +45,23 @@ test('navigation anchors have real targets and main content works without JavaSc
 test('social image, favicon and optional machine-readable summary exist', () => {
   for (const path of ['social.svg', 'social.png', 'favicon.svg', 'llms.txt', 'product.md']) assert.ok(existsSync(new URL(`../dist/${path}`, import.meta.url)), path);
   assert.match(html, /property="og:title"/); assert.match(html, /name="description"/);
+});
+test('social previews describe the actual public PNG explicitly without client-side rendering', () => {
+  const image = readFileSync(new URL('../dist/social.png', import.meta.url));
+  assert.deepEqual(image.subarray(0, 8), Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
+  const width = image.readUInt32BE(16);
+  const height = image.readUInt32BE(20);
+  assert.equal(width, 1200);
+  assert.equal(height, 630);
+  assert.ok(image.length < 5 * 1024 * 1024);
+  if (site) {
+    const url = new URL('social.png?v=quadship-3', site).href;
+    assert.ok(html.includes(`property="og:image:secure_url" content="${url}"`));
+    assert.ok(html.includes(`property="og:image:width" content="${width}"`));
+    assert.ok(html.includes(`property="og:image:height" content="${height}"`));
+    assert.match(html, /property="og:image:type" content="image\/png"/);
+  } else {
+    assert.doesNotMatch(html, /property="og:image(?::(?:secure_url|width|height|type))?"/);
+  }
+  assert.match(html, /name="twitter:image:alt" content="QuadShip\./);
 });

@@ -13,6 +13,7 @@ import { getWebMCPOriginTrialToken } from '../lib/webmcp-origin-trial.mjs';
 const title = 'QuadShip — PaaS self-hosted en Rust. Próximamente.';
 const description = 'QuadShip: una plataforma en desarrollo para desplegar aplicaciones en tus servidores. Aislamiento rootless por proyecto, CI antes del deploy y MCP con control humano.';
 const canonical = Astro.site?.href;
+const socialImage = canonical ? new URL('social.png?v=quadship-3', canonical).href : undefined;
 const webmcpTrialToken = import.meta.env.DEV ? undefined : getWebMCPOriginTrialToken(Astro.site);
 const definition = 'Es un PaaS self-hosted en Rust: Podman rootless con un usuario Linux por proyecto, supervisión nativa con systemd/Quadlet, Caddy con HTTPS automático, deploy que solo avanza cuando el CI está en verde y un servidor MCP de primera clase con aprobaciones humanas para las acciones destructivas.';
 const author = { '@type': 'Person', '@id': 'https://mangel14.dev/#person', name: 'Miguel Ángel Bonilla Torres', url: 'https://mangel14.dev' };
@@ -43,10 +44,18 @@ const faqs = [
     {canonical && <link rel="canonical" href={canonical} />}
     <meta property="og:type" content="website" /><meta property="og:locale" content="es_CO" /><meta property="og:site_name" content="QuadShip" />
     <meta property="og:title" content={title} /><meta property="og:description" content={description} />
-    {canonical && <meta property="og:url" content={canonical} />}{canonical && <meta property="og:image" content={new URL('social.png', canonical).href} />}
+    {canonical && <meta property="og:url" content={canonical} />}
+    {socialImage && <>
+      <meta property="og:image" content={socialImage} />
+      <meta property="og:image:secure_url" content={socialImage} />
+      <meta property="og:image:type" content="image/png" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+    </>}
     <meta property="og:image:alt" content="QuadShip. Un PaaS self-hosted en Rust. Próximamente." />
     <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content={title} /><meta name="twitter:description" content={description} />
-    {canonical && <meta name="twitter:image" content={new URL('social.png', canonical).href} />}
+    {socialImage && <meta name="twitter:image" content={socialImage} />}
+    <meta name="twitter:image:alt" content="QuadShip. Un PaaS self-hosted en Rust. Próximamente." />
     <link rel="icon" href="/favicon.svg?v=quadship-2" type="image/svg+xml" />
     <link rel="ard" href="/.well-known/ard.json" type="application/json" />
     <link rel="ai-catalog" href="/.well-known/ai-catalog.json" type="application/json" />
